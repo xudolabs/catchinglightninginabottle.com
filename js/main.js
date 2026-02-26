@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
       payload.append('subject', document.getElementById('subject').value);
       payload.append('message', document.getElementById('message').value);
 
-      fetch('https://script.google.com/macros/s/AKfycbxLHKokYk9JhEyWajpzhMTKc_dOiRkLmhnTUEk052Mokz8ZoAelwbrdl6Oke-9ZsdTv/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbzalPG2j5z_H1E-DcgZuqGOGeSWXXHtQiL0lp3HyRA-ds0JtAejkRQAVau8kr7qK7J2/exec', {
         method: 'POST',
         mode: 'no-cors',
         body: payload
