@@ -133,14 +133,8 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
 /* --- Hero Banner --- */
 .hero-banner {
   width: 100%;
-  background: var(--navy);
-  overflow: hidden;
-}
-
-.hero-banner-img {
-  width: 100%;
-  height: auto;
-  display: block;
+  height: 300px;
+  background: url('../images/hero-banner.jpg') center center / cover no-repeat fixed;
 }
 
 /* --- Hero Section --- */
