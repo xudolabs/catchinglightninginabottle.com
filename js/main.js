@@ -39,16 +39,17 @@ document.addEventListener('DOMContentLoaded', function () {
       btn.textContent = 'Sending...';
       status.style.display = 'none';
 
-      var payload = new FormData();
-      payload.append('name', document.getElementById('name').value);
-      payload.append('email', document.getElementById('email').value);
-      payload.append('subject', document.getElementById('subject').value);
-      payload.append('message', document.getElementById('message').value);
+      var params = new URLSearchParams();
+      params.append('name', document.getElementById('name').value);
+      params.append('email', document.getElementById('email').value);
+      params.append('subject', document.getElementById('subject').value);
+      params.append('message', document.getElementById('message').value);
 
-      fetch('https://script.google.com/macros/s/AKfycbzalPG2j5z_H1E-DcgZuqGOGeSWXXHtQiL0lp3HyRA-ds0JtAejkRQAVau8kr7qK7J2/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: payload
+      var scriptUrl = 'https://script.google.com/macros/s/AKfycbzwfrIsRYYJghlJp9to1aiYdmvw9XXXCl43lgz6QZ4B8n2oOULi2g824uoakO1aC5P0/exec';
+
+      fetch(scriptUrl + '?' + params.toString(), {
+        method: 'GET',
+        mode: 'no-cors'
       })
       .then(function () {
         status.textContent = 'Thank you! Your message has been sent.';
