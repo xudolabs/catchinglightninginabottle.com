@@ -26,4 +26,47 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // Contact form submission to Google Sheets
+  var form = document.getElementById('contact-form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var btn = document.getElementById('submit-btn');
+      var status = document.getElementById('form-status');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      status.style.display = 'none';
+
+      var payload = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+      };
+
+      fetch('https://script.google.com/macros/s/AKfycbxLHKokYk9JhEyWajpzhMTKc_dOiRkLmhnTUEk052Mokz8ZoAelwbrdl6Oke-9ZsdTv/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function () {
+        status.textContent = 'Thank you! Your message has been sent.';
+        status.style.color = '#22c55e';
+        status.style.display = 'block';
+        form.reset();
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+      })
+      .catch(function () {
+        status.textContent = 'Something went wrong. Please try again.';
+        status.style.color = '#ef4444';
+        status.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+      });
+    });
+  }
 });

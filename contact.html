@@ -46,7 +46,7 @@
         <!-- Form -->
         <div>
           <h2 style="margin-bottom: 1.5rem;">Send a Message</h2>
-          <form action="#" method="post">
+          <form id="contact-form">
             <div class="form-row">
               <div class="form-group">
                 <label for="name">Name</label>
@@ -71,7 +71,8 @@
               <label for="message">Message</label>
               <textarea id="message" name="message" placeholder="Tell me more..." required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Send Message</button>
+            <button type="submit" class="btn btn-primary" id="submit-btn">Send Message</button>
+            <p id="form-status" style="margin-top: 1rem; display: none;"></p>
           </form>
         </div>
 
