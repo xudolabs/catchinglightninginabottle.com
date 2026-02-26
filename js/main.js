@@ -93,24 +93,22 @@ document.addEventListener('DOMContentLoaded', function () {
         mode: 'no-cors'
       })
       .then(function () {
-        status.textContent = 'Access granted! Download links are now unlocked below.';
+        status.textContent = 'Your scorecard is ready!';
         status.style.color = '#22c55e';
         status.style.display = 'block';
-        btn.textContent = 'Unlocked!';
+        btn.textContent = 'Sent!';
+        toolkitForm.style.display = 'none';
 
-        // Unlock download buttons
-        document.querySelectorAll('.toolkit-download').forEach(function (link) {
-          link.style.pointerEvents = 'auto';
-          link.style.opacity = '1';
-          link.textContent = 'Download';
-        });
+        // Show download link
+        var dlLink = document.getElementById('toolkit-download-link');
+        if (dlLink) { dlLink.style.display = 'block'; }
       })
       .catch(function () {
         status.textContent = 'Something went wrong. Please try again.';
         status.style.color = '#ef4444';
         status.style.display = 'block';
         btn.disabled = false;
-        btn.textContent = 'Get Access';
+        btn.textContent = 'Get the Scorecard';
       });
     });
   }

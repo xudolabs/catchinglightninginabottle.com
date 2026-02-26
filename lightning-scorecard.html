@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lightning Scorecard — Rate Your Team in 5 Minutes</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #1a1a2e;
+      background: #fff;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 30px;
+      line-height: 1.6;
+    }
+
+    @media print {
+      body { padding: 20px; font-size: 11pt; }
+      .no-print { display: none !important; }
+      .marker-section { break-inside: avoid; }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #d4a843;
+    }
+
+    .header h1 {
+      font-size: 1.8rem;
+      color: #1a1a2e;
+      margin-bottom: 4px;
+    }
+
+    .header .subtitle {
+      font-size: 1.1rem;
+      color: #d4a843;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .instructions {
+      background: #f8f8f8;
+      border-left: 4px solid #d4a843;
+      padding: 15px 20px;
+      margin-bottom: 30px;
+      font-size: 0.9rem;
+    }
+
+    .instructions strong { color: #1a1a2e; }
+
+    .marker-section {
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .marker-section:last-of-type { border-bottom: none; }
+
+    .marker-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .marker-number {
+      background: #1a1a2e;
+      color: #d4a843;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .marker-header h2 {
+      font-size: 1.15rem;
+      color: #1a1a2e;
+    }
+
+    .marker-description {
+      color: #555;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+      margin-left: 38px;
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      margin-left: 38px;
+      gap: 8px;
+    }
+
+    .rating-label {
+      font-size: 0.8rem;
+      color: #999;
+      min-width: 80px;
+    }
+
+    .rating-label:last-child { text-align: right; }
+
+    .rating-boxes {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .rating-box {
+      width: 44px;
+      height: 36px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .rating-box:hover { border-color: #d4a843; color: #d4a843; }
+    .rating-box.selected { background: #1a1a2e; color: #d4a843; border-color: #1a1a2e; }
+
+    .red-flag {
+      margin-left: 38px;
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: #888;
+      font-style: italic;
+    }
+
+    .scoring {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+
+    .scoring h2 {
+      color: #d4a843;
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+
+    .score-display {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .score-display .total {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #d4a843;
+    }
+
+    .score-display .out-of {
+      font-size: 1rem;
+      color: #aaa;
+    }
+
+    .score-range {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .score-tier {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .score-tier.low { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+    .score-tier.mid { background: rgba(212, 168, 67, 0.15); color: #d4a843; }
+    .score-tier.high { background: rgba(34, 197, 94, 0.15); color: #86efac; }
+
+    .score-tier strong { display: block; font-size: 0.95rem; margin-bottom: 4px; }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #d4a843;
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    .footer-note a { color: #d4a843; text-decoration: none; }
+
+    .btn-print {
+      display: inline-block;
+      background: #d4a843;
+      color: #1a1a2e;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .btn-print:hover { background: #c49a3a; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>The Lightning Scorecard</h1>
+    <div class="subtitle">Rate Your Team in 5 Minutes</div>
+    <p>From <em>Catching Lightning in a Bottle</em> by Tuong Do</p>
+  </div>
+
+  <div class="instructions">
+    <strong>How to use:</strong> Rate your team on each of the Five Lightning Markers from 1 (not present) to 5 (deeply embedded). Be honest. The goal isn't a high score &mdash; it's clarity on where to focus.
+  </div>
+
+  <div class="marker-section">
+    <div class="marker-header">
+      <div class="marker-number">1</div>
+      <h2>Vulnerability-Based Trust</h2>
+    </div>
+    <p class="marker-description">Team members willingly admit mistakes, ask for help, say "I don't know," and show up as human beings &mdash; not just professionals performing competence.</p>
+    <div class="rating-row">
+      <span class="rating-label">Not present</span>
+      <div class="rating-boxes" data-marker="1">
+        <div class="rating-box" data-value="1">1</div>
+        <div class="rating-box" data-value="2">2</div>
+        <div class="rating-box" data-value="3">3</div>
+        <div class="rating-box" data-value="4">4</div>
+        <div class="rating-box" data-value="5">5</div>
+      </div>
+      <span class="rating-label">Deeply embedded</span>
+    </div>
+    <p class="red-flag">Red flag: Meetings are polished performances where everyone reports that everything is fine.</p>
+  </div>
+
+  <div class="marker-section">
+    <div class="marker-header">
+      <div class="marker-number">2</div>
+      <h2>Truth-Seeking Conflict</h2>
+    </div>
+    <p class="marker-description">The team engages in fierce debates about ideas without making it personal. People argue passionately, then let go immediately. No grudges. No politics.</p>
+    <div class="rating-row">
+      <span class="rating-label">Not present</span>
+      <div class="rating-boxes" data-marker="2">
+        <div class="rating-box" data-value="1">1</div>
+        <div class="rating-box" data-value="2">2</div>
+        <div class="rating-box" data-value="3">3</div>
+        <div class="rating-box" data-value="4">4</div>
+        <div class="rating-box" data-value="5">5</div>
+      </div>
+      <span class="rating-label">Deeply embedded</span>
+    </div>
+    <p class="red-flag">Red flag: Everyone always agrees, or disagreements become personal and linger.</p>
+  </div>
+
+  <div class="marker-section">
+    <div class="marker-header">
+      <div class="marker-number">3</div>
+      <h2>North Star Purpose</h2>
+    </div>
+    <p class="marker-description">Every person on the team can articulate why the work matters &mdash; in their own words, not a rehearsed mission statement. Purpose drives daily decisions.</p>
+    <div class="rating-row">
+      <span class="rating-label">Not present</span>
+      <div class="rating-boxes" data-marker="3">
+        <div class="rating-box" data-value="1">1</div>
+        <div class="rating-box" data-value="2">2</div>
+        <div class="rating-box" data-value="3">3</div>
+        <div class="rating-box" data-value="4">4</div>
+        <div class="rating-box" data-value="5">5</div>
+      </div>
+      <span class="rating-label">Deeply embedded</span>
+    </div>
+    <p class="red-flag">Red flag: Ask three people why their work matters and you get three different answers &mdash; or blank stares.</p>
+  </div>
+
+  <div class="marker-section">
+    <div class="marker-header">
+      <div class="marker-number">4</div>
+      <h2>Distributed Authority</h2>
+    </div>
+    <p class="marker-description">Decisions are made by the people closest to the information, not the person with the biggest title. The team doesn't wait for permission to act.</p>
+    <div class="rating-row">
+      <span class="rating-label">Not present</span>
+      <div class="rating-boxes" data-marker="4">
+        <div class="rating-box" data-value="1">1</div>
+        <div class="rating-box" data-value="2">2</div>
+        <div class="rating-box" data-value="3">3</div>
+        <div class="rating-box" data-value="4">4</div>
+        <div class="rating-box" data-value="5">5</div>
+      </div>
+      <span class="rating-label">Deeply embedded</span>
+    </div>
+    <p class="red-flag">Red flag: Every decision requires three meetings and two levels of approval.</p>
+  </div>
+
+  <div class="marker-section">
+    <div class="marker-header">
+      <div class="marker-number">5</div>
+      <h2>Collective Ownership</h2>
+    </div>
+    <p class="marker-description">Success and failure belong to the team, not individuals. No blame culture. No hero worship. Systems work, not saviors.</p>
+    <div class="rating-row">
+      <span class="rating-label">Not present</span>
+      <div class="rating-boxes" data-marker="5">
+        <div class="rating-box" data-value="1">1</div>
+        <div class="rating-box" data-value="2">2</div>
+        <div class="rating-box" data-value="3">3</div>
+        <div class="rating-box" data-value="4">4</div>
+        <div class="rating-box" data-value="5">5</div>
+      </div>
+      <span class="rating-label">Deeply embedded</span>
+    </div>
+    <p class="red-flag">Red flag: One person everyone depends on, or "we need to wait for X to get back from vacation."</p>
+  </div>
+
+  <div class="scoring">
+    <h2>Your Lightning Score</h2>
+    <div class="score-display">
+      <span class="total" id="total-score">--</span>
+      <span class="out-of"> / 25</span>
+    </div>
+    <div class="score-range">
+      <div class="score-tier low">
+        <strong>5&ndash;11</strong>
+        The storm is brewing. Your team has significant gaps. Start with your lowest-scoring marker &mdash; that's your biggest lever.
+      </div>
+      <div class="score-tier mid">
+        <strong>12&ndash;18</strong>
+        Sparks are flying. Your team has potential but inconsistency. Focus on turning 2s and 3s into 4s.
+      </div>
+      <div class="score-tier high">
+        <strong>19&ndash;25</strong>
+        Lightning is close. Your team is strong. Protect what's working and address any remaining 3s.
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align: center;" class="no-print">
+    <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+
+  <div class="footer-note">
+    <p>The scorecard reveals where you stand. The book shows you how to get where you want to go.</p>
+    <p style="margin-top: 8px;"><em>Catching Lightning in a Bottle: Building Global High-Performing Teams for Companies Large and Small</em></p>
+    <p style="margin-top: 4px;"><a href="https://catchinglightninginabottle.com">catchinglightninginabottle.com</a></p>
+  </div>
+
+  <script>
+    document.querySelectorAll('.rating-box').forEach(function(box) {
+      box.addEventListener('click', function() {
+        var parent = this.closest('.rating-boxes');
+        parent.querySelectorAll('.rating-box').forEach(function(b) { b.classList.remove('selected'); });
+        this.classList.add('selected');
+        updateScore();
+      });
+    });
+
+    function updateScore() {
+      var total = 0;
+      var filled = 0;
+      document.querySelectorAll('.rating-boxes').forEach(function(group) {
+        var selected = group.querySelector('.selected');
+        if (selected) {
+          total += parseInt(selected.getAttribute('data-value'));
+          filled++;
+        }
+      });
+      var display = document.getElementById('total-score');
+      if (filled === 5) {
+        display.textContent = total;
+      } else {
+        display.textContent = total + '...';
+      }
+    }
+  </script>
+
+</body>
+</html>
