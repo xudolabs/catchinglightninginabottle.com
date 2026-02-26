@@ -39,18 +39,16 @@ document.addEventListener('DOMContentLoaded', function () {
       btn.textContent = 'Sending...';
       status.style.display = 'none';
 
-      var payload = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        subject: document.getElementById('subject').value,
-        message: document.getElementById('message').value
-      };
+      var payload = new FormData();
+      payload.append('name', document.getElementById('name').value);
+      payload.append('email', document.getElementById('email').value);
+      payload.append('subject', document.getElementById('subject').value);
+      payload.append('message', document.getElementById('message').value);
 
       fetch('https://script.google.com/macros/s/AKfycbxLHKokYk9JhEyWajpzhMTKc_dOiRkLmhnTUEk052Mokz8ZoAelwbrdl6Oke-9ZsdTv/exec', {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: payload
       })
       .then(function () {
         status.textContent = 'Thank you! Your message has been sent.';
