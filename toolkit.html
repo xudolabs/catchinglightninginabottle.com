@@ -44,10 +44,11 @@
       <div class="signup-box">
         <h3>Unlock the Full Toolkit</h3>
         <p>Enter your email to get instant access to all frameworks, diagnostics, and templates referenced in the book.</p>
-        <form class="signup-form" action="#" method="post">
-          <input type="email" placeholder="you@email.com" required>
-          <button type="submit" class="btn btn-primary">Get Access</button>
+        <form class="signup-form" id="toolkit-form">
+          <input type="email" id="toolkit-email" placeholder="you@email.com" required>
+          <button type="submit" class="btn btn-primary" id="toolkit-btn">Get Access</button>
         </form>
+        <p id="toolkit-status" style="margin-top: 1rem; display: none;"></p>
       </div>
     </div>
   </section>
@@ -69,7 +70,7 @@
             Distributed Authority, and Collective Ownership. Identify where your team
             shines and where to focus your efforts.
           </p>
-          <a href="#" class="btn btn-outline">Download</a>
+          <a href="#" class="btn btn-outline toolkit-download" style="pointer-events: none; opacity: 0.4;">Unlock with Email Above</a>
         </div>
 
         <div class="toolkit-card">
@@ -80,7 +81,7 @@
             Each force includes warning signs, root causes, and specific counter-measures
             you can implement this week.
           </p>
-          <a href="#" class="btn btn-outline">Download</a>
+          <a href="#" class="btn btn-outline toolkit-download" style="pointer-events: none; opacity: 0.4;">Unlock with Email Above</a>
         </div>
 
         <div class="toolkit-card">
@@ -91,7 +92,7 @@
             Conductor (trust), Seal (culture), or Charge (purpose) &mdash; and find
             targeted interventions.
           </p>
-          <a href="#" class="btn btn-outline">Download</a>
+          <a href="#" class="btn btn-outline toolkit-download" style="pointer-events: none; opacity: 0.4;">Unlock with Email Above</a>
         </div>
 
         <div class="toolkit-card">
@@ -102,7 +103,7 @@
             Strengthen (Days 31&ndash;60), and Sustain (Days 61&ndash;90). Start building
             your high-performing team Monday morning.
           </p>
-          <a href="#" class="btn btn-outline">Download</a>
+          <a href="#" class="btn btn-outline toolkit-download" style="pointer-events: none; opacity: 0.4;">Unlock with Email Above</a>
         </div>
       </div>
     </div>

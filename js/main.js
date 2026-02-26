@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
       params.append('subject', document.getElementById('subject').value);
       params.append('message', document.getElementById('message').value);
 
-      var scriptUrl = 'https://script.google.com/macros/s/AKfycbzwfrIsRYYJghlJp9to1aiYdmvw9XXXCl43lgz6QZ4B8n2oOULi2g824uoakO1aC5P0/exec';
+      var scriptUrl = 'https://script.google.com/macros/s/AKfycbzHimoAixRcfqZQxg8ItZFGp29IWUn5jWg9WY2HULwy4ZeouMVRx_qhLABJV40QRcnt/exec';
 
       fetch(scriptUrl + '?' + params.toString(), {
         method: 'GET',
@@ -65,6 +65,52 @@ document.addEventListener('DOMContentLoaded', function () {
         status.style.display = 'block';
         btn.disabled = false;
         btn.textContent = 'Send Message';
+      });
+    });
+  }
+
+  // Toolkit email signup
+  var toolkitForm = document.getElementById('toolkit-form');
+  if (toolkitForm) {
+    toolkitForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var btn = document.getElementById('toolkit-btn');
+      var status = document.getElementById('toolkit-status');
+      var emailInput = document.getElementById('toolkit-email');
+      btn.disabled = true;
+      btn.textContent = 'Unlocking...';
+      status.style.display = 'none';
+
+      var params = new URLSearchParams();
+      params.append('form', 'toolkit');
+      params.append('email', emailInput.value);
+
+      var scriptUrl = 'https://script.google.com/macros/s/AKfycbzHimoAixRcfqZQxg8ItZFGp29IWUn5jWg9WY2HULwy4ZeouMVRx_qhLABJV40QRcnt/exec';
+
+      fetch(scriptUrl + '?' + params.toString(), {
+        method: 'GET',
+        mode: 'no-cors'
+      })
+      .then(function () {
+        status.textContent = 'Access granted! Download links are now unlocked below.';
+        status.style.color = '#22c55e';
+        status.style.display = 'block';
+        btn.textContent = 'Unlocked!';
+
+        // Unlock download buttons
+        document.querySelectorAll('.toolkit-download').forEach(function (link) {
+          link.style.pointerEvents = 'auto';
+          link.style.opacity = '1';
+          link.textContent = 'Download';
+        });
+      })
+      .catch(function () {
+        status.textContent = 'Something went wrong. Please try again.';
+        status.style.color = '#ef4444';
+        status.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Get Access';
       });
     });
   }
